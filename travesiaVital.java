@@ -1,46 +1,67 @@
 public class travesiaVital {
-    
+/* falta adaptarlo a programacion dinamica,tener una matriz llamada memoria y guardar los resultados parciales ahi */
 static int minimaVida(int i ,int j,int[][] tablero) {
-    int[][] memoria = new int[i][j] ;
-    if(minimaVidaPD(0, 0,memoria,tablero)>0) {
-        return minimaVidaPD(0, 0, memoria, tablero) ;
-
-    } 
-    else {
-       return 1 ;
-    }
+   
+    return minimaVidaPD(0,0,0,tablero) ;
 }
 
-static int minimaVidaPD(int i,int j,int[][] memoria,int[][] tablero) {
-    if(i==memoria.length-1 && j== memoria[0].length-1) {
-       memoria[i][j] += tablero[i][j] ;
-       return memoria[i][j] ;
+static int minimaVidaPD(int i,int j,int cont,int[][] tablero) {
+    
+    if(i==tablero.length-1 && j == tablero[0].length-1) {
+        if(tablero[i][j]<0) {
+            if(cont-Math.abs(tablero[i][j])<1) {
+                int nuevo = (Math.abs(tablero[i][j])-cont)+1 ;
+                cont = nuevo ;
+            }
+        }
+        return cont;
+        
     }
-    if(i!=memoria.length-1 && j == memoria[0].length-1) {
-        memoria[i][j] += tablero[i][j] ;
-        return minimaVidaPD(i+1, j, memoria, tablero) ;
+    if(i== tablero.length-1 && j!= tablero[0].length-1) {
+        if(tablero[i][j]<0) {
+            if(cont-Math.abs(tablero[i][j])<1) {
+                int nuevo = (Math.abs(tablero[i][j])+cont)+1 ;
+                cont = nuevo ;
+            }
+        }
+        return minimaVidaPD(i, j+1, cont, tablero) ;
+     
+       
     }
-    if(i== memoria.length-1 && j!= memoria[0].length-1) {
-        memoria[i][j] += tablero[i][j] ;
-        return minimaVidaPD(i, j+1, memoria, tablero) ;
+    if(j== tablero[0].length-1 && i!= tablero.length-1) {
+        if(tablero[i][j]<0) {
+            if(cont-Math.abs(tablero[i][j])<1) {
+                int nuevo = (Math.abs(tablero[i][j])+ cont)+1 ;
+                cont = nuevo ;
+            }
+        }
+        return minimaVidaPD(i+1, 0, cont, tablero) ;
+     
+       
     }
     else {
-        if(memoria[i][j]!= 0 ) {
-            return memoria[i][j] ;
-        }
 
+        if(j==0 && i == 0) {
+           cont += Math.abs(tablero[i][j]) +1 ;
+        }
         else {
-        int abajo = minimaVidaPD(i+1, j, memoria, tablero) ;
-        int derecha = minimaVidaPD(i, j+1, memoria, tablero) ;
-        int res = Math.min(derecha, abajo) ;
-        memoria[i][j] += res;
-        return res ;
+            if(tablero[i][j]<0) {
+                if(cont-Math.abs(tablero[i][j])<1) {
+                    int nuevo =  Math.abs(tablero[i][j]) + cont +  ;
+                    cont = nuevo ;
+                }
+            }
+
+        }
+        int abajo = minimaVidaPD(i+1, j,cont,tablero) ;
+        int derecha = minimaVidaPD(i,j+1,cont,tablero) ;
+        return Math.min(derecha, abajo) ;
+        
+      
     }
    }
-}
+
 public static void main(String[] args) {
-    int n = 3 ;
-    int m = 3 ;
     int[][] tab = {
         {-2,-3,3},
         {-5,-10,1},
