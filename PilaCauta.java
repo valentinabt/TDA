@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class Main {
+public class PilaCauta {
     static ArrayList<Integer> maxima(ArrayList<Integer> a , ArrayList<Integer> b) {
         if(a.size()> b.size()) {
             return a ;
@@ -9,6 +9,10 @@ public class Main {
         else {
             return b ;
         }
+    }
+    static ArrayList<Integer> agregar(ArrayList<Integer> a,Integer elem) {
+        a.add(elem) ;
+        return a ;
     }
 
 
@@ -18,9 +22,9 @@ public class Main {
     }
     static ArrayList<Integer> pilaCauta1(int i,int[] peso,int[] soporte,ArrayList<Integer> res,int pesoTotal) {
         if(i==0) {
-            res.add(i+1) ;
-            ArrayList<Integer> poner = pilaCauta1(i+1, peso, soporte, res, pesoTotal) ;
-            res.remove(res.size()-1) ;
+            
+            ArrayList<Integer> poner = pilaCauta1(i+1, peso, soporte,agregar(res,i+1), pesoTotal) ;
+           
             ArrayList<Integer>  noPoner = pilaCauta1(i+1,peso,soporte,res,pesoTotal) ;
             return res ;
         }
@@ -29,20 +33,20 @@ public class Main {
                 return res ;
             }
             else {
-                res.add(i+1) ;
-                return res ; 
+                
+                return agregar(res,i+1) ;
             }
         }
         else {
             if(i!= 1 && peso[res.get(res.size()-1)-1]>soporte[res.get(res.size()-1)-1] || pesoTotal > soporte[res.get(0)-1]) {
-                //res.remove(res.size()-1) ;
+                res.remove(res.size()-1) ;
             }
 
             
-            ArrayList<Integer> poner = pilaCauta1(i+1, peso, soporte, res, pesoTotal+peso[i]) ;
-            res.add(i+1) ;
+            ArrayList<Integer> poner = pilaCauta1(i+1, peso, soporte,agregar(res,i+1), pesoTotal+peso[i]) ;
+           
             ArrayList<Integer> Noponer = pilaCauta1(i+1, peso, soporte, res, pesoTotal) ;
-            //res.remove(res.size()-1) ;
+           
             return maxima(poner, Noponer) ;
             
         }
