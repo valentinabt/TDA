@@ -6,19 +6,19 @@ public class OperacionesSeq {
         //int evaluacionA = 
     //}
 
-    list<String> operacionesSeq(int[] v,int w) {
+    static list<String> operacionesSeq(int[] v,int w) {
         String[][] memoria = new String[v.length][3] ;
         list<String> res = new ArrayList<String>() ;
         return operacionesSeqPD(v, w,0,acumulador,res) ;
     }
-    list<String> operacionesSeqPD(int[] v ,int w,int i,int acumulador,List<String> res) {
+    static list<String> operacionesSeqPD(int[] v ,int w,int i,int acumulador,List<String> res) {
         
         if(i== v.length-1) {
             if(acumulador == v) {
                 memoria[i] = res ;
             }
             return res ;
-            //else o retornar alguna lista vacia o algo asi
+            
         }
         else {
             list<String> suma = operacionesSeqPD(v, w, i+1, acumulador+v[i],res.add("+")) ;
@@ -27,5 +27,13 @@ public class OperacionesSeq {
             return res ;
         }
     }
+    public static void main(String[] args) {
+        int[] p = {1,2,3} ;
+        List<String> res = operacionesSeq(p, 9) ;
+        for(int i = 0;i< res.size() ; i++) {
+            System.out.println(res.get(i));
+        }
+    }
+
     
 }
